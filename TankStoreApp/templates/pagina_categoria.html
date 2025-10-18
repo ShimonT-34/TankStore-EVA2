@@ -1,0 +1,73 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ titulo }}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header class="header">
+        <h1>TANKSTORE</h1>
+        <h1>░░░░░░███████ ]▄▄▄▄▄▄▄▄▃</h1>
+        <h1>▂▄▅█████████▅▄▃▂</h1>
+        <h1>I███████████████████].</h1>
+        <h1>◥⊙▲⊙▲⊙▲⊙▲⊙▲⊙▲⊙◤... </h1>
+        <p>Catálogo por Categoría</p>
+    </header>
+
+    <nav class="nav">
+        <a href="/">Principal</a>
+        {% for categoria in categorias %}
+        <a href="/categoria/{{ categoria.id }}/" {% if categoria.id == categoria_actual.id %}class="active"{% endif %}>
+            {{ categoria.nombre }}
+        </a>
+        {% endfor %}
+    </nav>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="/">Principal</a>
+            <span>{{ categoria_actual.nombre }}</span>
+        </div>
+
+        <h2 class="page-title">Categoría: {{ categoria_actual.nombre }}</h2>
+        {% if categoria_actual.descripcion %}
+        <p class="categoria-descripcion">{{ categoria_actual.descripcion }}</p>
+        {% endif %}
+
+        <div class="tanques-grid">
+            {% for tanque in tanques %}
+            <div class="tanque-card">
+                <div class="categoria-badge">{{ tanque.categoria.nombre }}</div>
+                <img src="{{ tanque.imagen }}" alt="{{ tanque.nombre_tanque }}" class="tanque-img" onerror="this.src='https://via.placeholder.com/300x200?text=Imagen+No+Disponible'">
+                <div class="tanque-info">
+                    <div class="tanque-nombre">{{ tanque.nombre_tanque }}</div>
+                    <div class="tanque-pais">{{ tanque.pais }}</div>
+                    <div class="tanque-precio">${{ tanque.precio }}</div>
+                    <div class="tanque-stock {% if tanque.stock > 0 %}stock-disponible{% else %}stock-agotado{% endif %}">
+                        {% if tanque.stock > 0 %}
+                            Stock: {{ tanque.stock }} unidades
+                        {% else %}
+                            Agotado
+                        {% endif %}
+                    </div>
+                    <p class="tanque-descripcion">{{ tanque.descripcion }}</p>
+                    <a href="/detalle/{{ tanque.id }}/" class="btn btn-detalle">Ver Detalles</a>
+                </div>
+            </div>
+            {% empty %}
+            <div class="empty-message">
+                <p>No hay tanques disponibles en esta categoría.</p>
+                <a href="/" class="btn">Volver a Principal</a>  <!-- Cambiado -->
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 TANKSTORE. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,83 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ titulo }}</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header class="header">
+        <h1>TANKSTORE</h1>
+        <h1>░░░░░░███████ ]▄▄▄▄▄▄▄▄▃</h1>
+        <h1>▂▄▅█████████▅▄▃▂</h1>
+        <h1>I███████████████████].</h1>
+        <h1>◥⊙▲⊙▲⊙▲⊙▲⊙▲⊙▲⊙◤... </h1>
+        <p>Detalles del Producto</p>
+    </header>
+
+    <nav class="nav">
+        <a href="/">Principal</a>
+        <a href="/categoria/{{ tanque.categoria.id }}/">{{ tanque.categoria.nombre }}</a>
+    </nav>
+
+    <div class="container">
+        <div class="breadcrumb">
+            <a href="/">Principal</a>
+            <a href="/categoria/{{ tanque.categoria.id }}/">{{ tanque.categoria.nombre }}</a> >
+            <span>{{ tanque.nombre_tanque }}</span>
+        </div>
+
+        <div class="tanque-detalle">
+            <div class="tanque-imagen-container">
+                <img src="{{ tanque.imagen }}" alt="{{ tanque.nombre_tanque }}" class="tanque-imagen" onerror="this.src='https://via.placeholder.com/800x400?text=Imagen+No+Disponible'">
+            </div>
+
+            <div class="tanque-contenido">
+                <div class="categoria-badge-large">{{ tanque.categoria.nombre }}</div>
+
+                <h1 class="tanque-nombre-detalle">{{ tanque.nombre_tanque }}</h1>
+                <div class="tanque-precio-detalle">${{ tanque.precio }}</div>
+
+                <div class="stock-badge {% if tanque.stock > 0 %}stock-disponible-badge{% else %}stock-agotado-badge{% endif %}">
+                    {% if tanque.stock > 0 %}
+                        ✅ En stock: {{ tanque.stock }} unidades disponibles
+                    {% else %}
+                        ❌ Agotado
+                    {% endif %}
+                </div>
+
+                <div class="especificaciones">
+                    <h3>Descripción del Producto</h3>
+                    <p class="tanque-descripcion-detalle">{{ tanque.descripcion }}</p>
+                </div>
+
+                <div class="info-adicional">
+                    <h4>Información Adicional</h4>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <strong>Categoría:</strong> {{ tanque.categoria.nombre }}
+                        </div>
+                        <div class="info-item">
+                            <strong>País de Origen:</strong> {{ tanque.pais }}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="acciones">
+                    {% if tanque.stock > 0 %}
+                        <button class="btn btn-comprar">🛒 Comprar Ahora</button>
+                    {% endif %}
+                    <a href="/categoria/{{ tanque.categoria.id }}/" class="btn btn-volver">← Volver a {{ tanque.categoria.nombre }}</a>
+                    <a href="/" class="btn btn-volver">🏠 Volver a Principal</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>&copy; 2024 TANKSTORE. Todos los derechos reservados.</p>
+    </footer>
+</body>
+</html>
